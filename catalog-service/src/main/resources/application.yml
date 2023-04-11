@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: user-service
+    name: catalog-service
   h2:
     console:
       enabled: true
@@ -22,9 +22,11 @@ spring:
   jpa:
     # ?? ??
     hibernate:
-      ddl-auto: create  #
+      ddl-auto: create-drop #
+
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
         default_batch_fetch_size: 500
 
@@ -38,5 +40,6 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
-greeting:
-  message: Welcome to the Simple E-commerce.
+logging:
+  leven:
+    com.example.catalogservice: DEBUG

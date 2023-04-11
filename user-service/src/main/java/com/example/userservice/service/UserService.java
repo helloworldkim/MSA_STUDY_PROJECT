@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,5 +29,17 @@ public class UserService {
 
         UserDto returnUserdto = objectMapper.convertValue(userEntity, UserDto.class);
         return returnUserdto;
+    }
+
+    public UserDto getUserByUserId(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow();
+
+        UserDto userDto = objectMapper.convertValue(userEntity, UserDto.class);
+        userDto.setOrders(List.of());
+        return userDto;
+    }
+
+    public List<UserEntity> getUserAll() {
+        return userRepository.findAll();
     }
 }
