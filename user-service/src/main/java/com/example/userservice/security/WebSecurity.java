@@ -21,16 +21,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final ObjectMapper objectMapper;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/users").permitAll()
-                .antMatchers("/users/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").permitAll()
                 .and()
                 .addFilter(getAuthenticationFilter());
 
