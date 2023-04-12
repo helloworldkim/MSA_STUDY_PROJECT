@@ -54,7 +54,7 @@ greeting:
   message: Welcome to the Simple E-commerce.
 logging:
   level:
-    com.example.userservice: DEBUG
+    com.example.userservice.client: DEBUG
 #token:
 #  expiration_time: 86400000
 #  secret: usertokenabcdegfdasdasfsaASDASDASDWQDASCASDCQWDQWWQETGWSVDS
@@ -65,3 +65,7 @@ management:
     web:
       exposure:
         include: refresh, health, beans, busrefresh
+
+order_service:
+  url: http://ORDER-SERVICE/order-service/%s/orders
+#  url: http://localhost:8000/order-service/%s/orders

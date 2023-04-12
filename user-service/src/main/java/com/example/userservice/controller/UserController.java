@@ -71,7 +71,7 @@ public class UserController {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<ResponseUser> getUserByUserId(@PathVariable("userId") String userId) {
-        UserDto userDto = userService.getUserByUserId(userId);
+        UserDto userDto = userService.getUserByUserIdByFeginClient(userId);
         ResponseUser responseUser = objectMapper.convertValue(userDto, ResponseUser.class);
         return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }
