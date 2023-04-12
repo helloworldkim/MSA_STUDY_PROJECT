@@ -4,6 +4,7 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.Greeting;
+import com.example.userservice.vo.RequestLogin;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/user-service")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
@@ -67,4 +67,5 @@ public class UserController {
         ResponseUser responseUser = objectMapper.convertValue(userDto, ResponseUser.class);
         return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }
+
 }
