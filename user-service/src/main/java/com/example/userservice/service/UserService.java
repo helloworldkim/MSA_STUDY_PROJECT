@@ -64,4 +64,11 @@ public class UserService implements UserDetailsService {
     public List<UserEntity> getUserAll() {
         return userRepository.findAll();
     }
+
+    public UserDto getUserDetailsByEmail(String username) {
+        UserEntity userEntity = userRepository.findByEmail(username).orElseThrow();
+
+        return objectMapper.convertValue(userEntity, UserDto.class);
+
+    }
 }

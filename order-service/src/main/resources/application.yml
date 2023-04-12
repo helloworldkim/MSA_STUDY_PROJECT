@@ -1,8 +1,10 @@
+
 server:
   port: 0
+
 spring:
   application:
-    name: user-service
+    name: order-service
   h2:
     console:
       enabled: true
@@ -14,26 +16,20 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
-  #for cloud-config load
-#  config:
-#    import:
-#      import: "optional:configserver:http://localhost:8888"
-  config:
-    import:
-      - classpath:/bootstrap.yml
-    use-legacy-processing: true
+
   # ========================================
   # JPA
   # ========================================
   jpa:
     # ?? ??
     hibernate:
-      ddl-auto: create  #
+      ddl-auto: create-drop #
+
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
         default_batch_fetch_size: 500
-        show_sql: true
 
 eureka:
   instance:
@@ -45,18 +41,6 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
-greeting:
-  message: Welcome to the Simple E-commerce.
 logging:
-  level:
-    com.example.userservice: DEBUG
-#token:
-#  expiration_time: 86400000
-#  secret: usertokenabcdegfdasdasfsaASDASDASDWQDASCASDCQWDQWWQETGWSVDS
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh, health, beans
+  leven:
+    com.example.orderservice: DEBUG
