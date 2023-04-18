@@ -2,6 +2,7 @@ package com.example.userservice.service;
 
 import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.error.FeignErrorDecoder;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
@@ -86,12 +87,13 @@ public class UserService implements UserDetailsService {
     public UserDto getUserByUserIdByFeginClient(String userId) {
         UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow();
         UserDto userDto = objectMapper.convertValue(userEntity, UserDto.class);
-        List<ResponseOrder> orderList = null;
-        try {
-            orderList = orderServiceClient.getOrders(userId);
-        } catch (FeignException ex) {
-            log.error(ex.getMessage());
-        }
+//        List<ResponseOrder> orderList = null;
+//        try {
+//            orderList = orderServiceClient.getOrders(userId);
+//        } catch (FeignException ex) {
+//            log.error(ex.getMessage());
+//        }
+        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
         userDto.setOrders(orderList);
         return userDto;
     }
