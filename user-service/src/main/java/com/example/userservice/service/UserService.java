@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -38,6 +40,7 @@ public class UserService implements UserDetailsService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final OrderServiceClient orderServiceClient;
+    private final CircuitBreakerFactory circuitBreakerFactory;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -93,7 +96,16 @@ public class UserService implements UserDetailsService {
 //        } catch (FeignException ex) {
 //            log.error(ex.getMessage());
 //        }
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+        /* ErrorDecoder */
+//        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+
+        //서킷브레이커 CircuitBreaker
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<ResponseOrder> orderList = circuitbreaker.run(() -> {
+            return orderServiceClient.getOrders(userId);
+        }
+        , throwable -> {return List.of();}
+        );
         userDto.setOrders(orderList);
         return userDto;
     }
