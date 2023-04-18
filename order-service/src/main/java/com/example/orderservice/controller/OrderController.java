@@ -39,9 +39,12 @@ public class OrderController {
             ,@RequestBody RequestOrder order) {
         OrderDto orderDto = objectMapper.convertValue(order, OrderDto.class);
         orderDto.setUserId(userId);
-        orderService.createOrder(orderDto);
 
+        /* JPA */
+        orderService.createOrder(orderDto);
         ResponseOrder responseOrder = objectMapper.convertValue(orderDto, ResponseOrder.class);
+
+        /* Kafka producer */
         String topic = "example-catalog-topic";
         kafkaProducer.send(topic,orderDto);
         //201 반환
