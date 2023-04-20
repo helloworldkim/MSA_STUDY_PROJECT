@@ -99,6 +99,7 @@ public class UserService implements UserDetailsService {
         /* ErrorDecoder */
 //        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 
+        log.info("Before call orders microservice");
         //서킷브레이커 CircuitBreaker
         CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
         List<ResponseOrder> orderList = circuitbreaker.run(() -> {
@@ -106,6 +107,7 @@ public class UserService implements UserDetailsService {
         }
         , throwable -> {return List.of();}
         );
+        log.info("After call orders microservice");
         userDto.setOrders(orderList);
         return userDto;
     }

@@ -37,6 +37,12 @@ dependencies {
 
     //mariadb
     implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+    //zipkin
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+
+    //sleuth
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 }
 
 dependencyManagement {

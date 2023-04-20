@@ -37,6 +37,7 @@ public class OrderController {
     public ResponseEntity<ResponseOrder> createOrder(
             @PathVariable("userId") String userId
             ,@RequestBody RequestOrder order) {
+        log.info("Before order post data");
         OrderDto orderDto = objectMapper.convertValue(order, OrderDto.class);
         orderDto.setUserId(userId);
 
@@ -47,18 +48,19 @@ public class OrderController {
         /* Kafka producer */
         String topic = "example-catalog-topic";
         kafkaProducer.send(topic,orderDto);
+        log.info("After order post data");
         //201 반환
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
 
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> getOrders(@PathVariable("userId") String userId) {
-
+        log.info("Before order data");
         List<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
         List<ResponseOrder> result = new ArrayList<>();
 
         orderList.forEach(o -> result.add(objectMapper.convertValue(o, ResponseOrder.class)));
-
+        log.info("After order data");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
